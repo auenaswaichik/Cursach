@@ -133,15 +133,19 @@ long long MainWindow :: CalculateIndex()
 
     long long Result = 0;
 
-    long long Position = AmmounDay.size() - 1;
+    int* temp = new int[ AmmounDay.size() ];
+    for( int i = 0 ; i < AmmounDay.size() ; ++ i )
+        temp[ i ] = AmmounDay[ i ];
 
-    while( Position >= 0 && AmmounDay.size() - Position <= 5 )
-    {
+    bitonicsort( temp , ( temp + ( AmmounDay.size() - 1 ) )  );
 
-        Result += ( AmmounDay[ Position ] / 2 / ( AmmounDay.size() - Position ) );
-        -- Position;
+    int* newTemp = new int[ AmmounDay.size() ];
+    for( int i = 0 ; i < AmmounDay.size() ; ++ i )
+        newTemp[ i ] = AmmounDay[ i ];
 
-    }
+    int position = BinSearch( temp[ AmmounDay.size() - 1 ] , newTemp , 0 , AmmounDay.size() - 1 );
+
+    Result = sum( 1 , 0 , AmmounDay.size() - 1 , std :: max( position - 2 , 0 ) , ( position + 2 ) < ( AmmounDay.size() - 1 ) ? ( position + 2 ) : ( AmmounDay.size() - 1 ) );
 
     return Result > 4 ? 4 : Result;
 
@@ -154,6 +158,7 @@ void MainWindow::on_pushButtonMinus_clicked()
 
     CigsCurrentDay = CigsCurrentDay == 0 ? 0 : -- CigsCurrentDay;
     AmmounDay[ AmmounDay.size() - 1 ] = CigsCurrentDay;
+    update( 1 , 0 , AmmounDay.size() - 1 , AmmounDay.size() - 1 , CigsCurrentDay );
     ui -> labelCigsCurrentDay -> setText( QString :: number( CigsCurrentDay ) );
     WriteVector();
 
@@ -162,16 +167,15 @@ void MainWindow::on_pushButtonMinus_clicked()
 void MainWindow::on_pushButtonPlus_clicked()
 {
 
+    WriteTime();
     ++ CigsCurrentDay;
     AmmounDay[ AmmounDay.size() - 1 ] = CigsCurrentDay;
-
     secundes = 0;
     minutes = 0;
     hours = 0;
     days = 0;
-
+    update( 1 , 0 , AmmounDay.size() - 1 , AmmounDay.size() - 1 , CigsCurrentDay );
     ui -> labelCigsCurrentDay -> setText( QString :: number( CigsCurrentDay ) );
-    WriteTime();
     WriteVector();
 
 }
@@ -209,7 +213,11 @@ void MainWindow :: MakeVector()
 
     }
 
-    t.resize( AmmounDay.size() * 4 );
+    t = new int[ AmmounDay.size() * 4 ];
+    int* temp = new int[ AmmounDay.size() ];
+    for( int i = 0 ; i < AmmounDay.size() ; ++ i )
+        temp[ i ] = AmmounDay[ i ];
+    build( temp , 1 , 0 , AmmounDay.size() - 1 );
 
     file.close();
 
@@ -324,6 +332,7 @@ void MainWindow :: MakeTime()
         }
 
         // setting time
+        QTime vremechko = QTime :: currentTime();
 
         {
 
@@ -335,7 +344,7 @@ void MainWindow :: MakeTime()
 
             }
 
-            hours = QTime :: currentTime().hour() - QSToLL( TempNum );
+            hours = vremechko.hour() - QSToLL( TempNum );
 
             ++ j;
             TempNum = "";
@@ -348,7 +357,7 @@ void MainWindow :: MakeTime()
 
             }
 
-            minutes = QTime :: currentTime().minute() - QSToLL( TempNum );
+            minutes = vremechko.minute() - QSToLL( TempNum );
 
             ++ j;
             TempNum = "";
@@ -361,7 +370,7 @@ void MainWindow :: MakeTime()
 
             }
 
-            secundes = QTime :: currentTime().second() - QSToLL( TempNum );
+            secundes = vremechko.second() - QSToLL( TempNum );
 
             if( secundes < 0 )
             {
@@ -407,7 +416,9 @@ void MainWindow :: WriteTime()
 
     QTextStream out( &file );
 
-    out << QString :: number( QDate :: currentDate().year() ) << " " << QString :: number( QDate :: currentDate().month() ) << " " << QString :: number( QDate :: currentDate().day() ) << " " << QString :: number( QTime :: currentTime().hour() ) << " " << QString :: number( QTime :: currentTime().minute() ) << " " << QString :: number( QTime :: currentTime().second() ) ;
+    QTime vaibik = QTime :: currentTime();
+
+    out << QString :: number( QDate :: currentDate().year() ) << " " << QString :: number( QDate :: currentDate().month() ) << " " << QString :: number( QDate :: currentDate().day() ) << " " << QString :: number( vaibik.hour() ) << " " << QString :: number( vaibik.minute() ) << " " << QString :: number( vaibik.second() ) ;
 
     file.close();
 
@@ -714,7 +725,7 @@ int MainWindow :: BinSearch( int val , int* a , int l , int r )
 
 }
 
-void MainWindow :: build (int a[], int v, int tl, int tr)
+void MainWindow :: build ( int a[], int v, int tl, int tr )
 {
     if (tl == tr)
         t[v] = a[tl];

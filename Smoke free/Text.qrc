@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/text">
-        <file>text/4</file>
-        <file>text/3</file>
-        <file>text/2</file>
-        <file>text/1</file>
-        <file>text/0</file>
-    </qresource>
-</RCC>

@@ -15,7 +15,7 @@
 #include <QScreen>
 #include <QMessageBox>
 #include <vector>
-#include "counter.h"
+#include <counter.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -72,7 +72,7 @@ private:
     QTime LastSigTime;
     QDate LastSigDate;
 
-    std :: vector< int > t;
+    int* t;
 
 private:
 

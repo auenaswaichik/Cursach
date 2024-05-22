@@ -292,17 +292,19 @@
      <widget class="QLabel" name="labelCigsCurrentDay">
       <property name="geometry">
        <rect>
-        <x>150</x>
-        <y>280</y>
+        <x>140</x>
+        <y>270</y>
         <width>50</width>
-        <height>41</height>
+        <height>51</height>
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 36pt &quot;Ubuntu&quot;;</string>
+       <string notr="true">font: 36pt &quot;Ubuntu&quot;;
+color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
       </property>
       <property name="text">
-       <string>0</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QLabel" name="labelTime">

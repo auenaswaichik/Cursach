@@ -9,12 +9,10 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    counter.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
-    counter.h \
     mainwindow.h
 
 FORMS += \
@@ -28,11 +26,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     Fronts.qrc \
     Text.qrc
-
-contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
-    ANDROID_PACKAGE_SOURCE_DIR = \
-        $$PWD/android
-}
 
 contains(ANDROID_TARGET_ARCH,arm64-v8a) {
     ANDROID_PACKAGE_SOURCE_DIR = \
