@@ -4,7 +4,7 @@
 
 Схема общей структуры программы
 
-![Algorithm scheme]("schemes/Функциональная схема программы.png")
+![Algorithm scheme](schemes/1.png)
 
 ## Блок-схема алгоритма XOR-шифрования
 
